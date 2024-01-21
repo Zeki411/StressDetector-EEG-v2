@@ -18,4 +18,12 @@ ipykernel
 
 requests
 rarfile
+
 # for pytorch
+torch 
+torchvision 
+torchaudio
+torcheeg
+
+mmengine
+wandb
