@@ -26,4 +26,6 @@ torchaudio
 torcheeg
 
 mmengine
+mmpretrain
+mmcv
 wandb

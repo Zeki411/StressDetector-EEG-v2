@@ -1,6 +1,7 @@
 from mmengine.model import BaseModel
 from torcheeg.models import EEGNet, FBCNet, TSCeption
 import torch.nn.functional as F
+from torch import nn
 
 class MMEEGNet(BaseModel):
     def __init__(self,
@@ -28,7 +29,9 @@ class MMEEGNet(BaseModel):
         ).double()
         
     def forward(self, eeg_epochs, labels, mode):
-        outputs = self.eegnet(eeg_epochs.unsqueeze(1))
+        outputs = self.eegnet(eeg_epochs)
+        outputs = nn.Sigmoid()(outputs) 
+        
         if mode == 'loss':
             return {'loss': F.cross_entropy(outputs, labels)}
         elif mode == 'predict':
@@ -53,7 +56,7 @@ class MMFBCNet(BaseModel):
         ).double()
         
     def forward(self, eeg_epochs, labels, mode):
-        outputs = self.fbcnet(eeg_epochs.unsqueeze(1))
+        outputs = self.fbcnet(eeg_epochs)
         if mode == 'loss':
             return {'loss': F.cross_entropy(outputs, labels)}
         elif mode == 'predict':
@@ -81,7 +84,7 @@ class MMTSCeption(BaseModel):
         ).double()
         
     def forward(self, eeg_epochs, labels, mode):
-        outputs = self.tsception(eeg_epochs.unsqueeze(1))
+        outputs = self.tsception(eeg_epochs)
         if mode == 'loss':
             return {'loss': F.cross_entropy(outputs, labels)}
         elif mode == 'predict':
